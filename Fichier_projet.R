@@ -56,20 +56,56 @@ new_data <- new_data %>%
   arrange(territoire, date,date_semi)
 
 data_panel_1 <- pdata.frame(new_data, index = c("territoire","date"))
-data_panel_2 <- pdata.frame(new_data, index = c("territoire","date_semi"))
 
-
-View(data_panel)
 
 
 #Premier graphique sur la production totale en regardant tous les territoires:
 
-graph_corse_1 <- data_panel_1 %>% 
+graph_1 <- data_panel_1 %>% 
   ggplot(aes(x = date, y=production_totale, color = territoire)) +
   geom_point() +
   theme_minimal()
-graph_corse_1
+graph_1
 
+
+#On créer un dataframe sur seulement les jours et on affiche
+
+data_semin <- new_data   %>% 
+  group_by(territoire,date_semi) %>% 
+  summarise(mean_prod = mean(production_totale, na.rm = T),.groups = "drop") %>% 
+  ggplot(aes(x = date_semi, y = mean_prod, color = territoire)) +
+  geom_point() +
+  theme_minimal()
+
+#Maintenant on regarde ce qui se passe pour la réunion et la guiyanne.
+
+plot_re_guy <- new_data   %>% 
+  filter(territoire %in% c('Guyane','Réunion')) %>% 
+  group_by(territoire,date_semi) %>% 
+  summarise(mean_prod = mean(production_totale, na.rm = T),.groups = "drop") %>% 
+  ggplot(aes(x = date_semi, y = mean_prod, color = territoire)) +
+  geom_point() +
+  theme_minimal()
+  
+plot_re_guy
+#On peut voir qu'il se passe quelque chose sur les graphiques, on peut faire une regression
+
+data_re_guy_reg <- new_data   %>% 
+  filter(territoire %in% c('Guyane','Réunion'),
+         date_semi >= as.POSIXct("2022-01-01", tz = "UTC")) %>% 
+  group_by(territoire,date_semi) %>% 
+  summarise(mean_prod = mean(production_totale, na.rm = T),.groups = "drop") %>% 
+  ggplot(aes(x = date_semi, y = mean_prod, color = territoire)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  theme_minimal()
+
+data_re_guy_reg
+
+#On voit une baisse de la production de la production totale moyenne d'electricité  par jour pour la Réunion, c'est l'inverse pour la Gyuane
+#Il faut aller regarder les situation géopolitique et peut petre le prix par megawatth
+
+  
 
 
 
