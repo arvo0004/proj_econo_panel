@@ -190,5 +190,9 @@ graph_large
 
 
 
-new_data_2022 <- new_data %>% 
-  filter(date_semi >= as.POSIXct("2022-01-01", tz = "UTC"))
+info_data_2022 <- new_data %>% 
+  filter(date_semi >= as.POSIXct("2022-01-01", tz = "UTC")) %>% 
+  select(cmp_euro_mwh) %>% 
+  unique()
+info_data_2022
+#Ici on voit qu'il manque les données des prix  à partir de 2022.
