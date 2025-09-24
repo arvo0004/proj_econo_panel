@@ -13,6 +13,13 @@ summary(model)
 #import de la base de donnée
 
 
+
+
+##### ATTENTION il manques les données des prix de production à partir de
+#2022... cf dernier code lignes 200..#####
+
+
+
 #lien internet de la base : 
 #https://www.data.gouv.fr/datasets/production-delectricite-par-filiere-et-couts-de-production-au-pas-horaire/
 
