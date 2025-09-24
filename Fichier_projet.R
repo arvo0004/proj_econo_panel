@@ -102,12 +102,14 @@ graph_1
 #On créer un dataframe sur seulement les jours et on affiche
 
 data_semin <- new_data   %>% 
+  filter(date_semi >= as.POSIXct("2022-01-01", tz = "UTC")) %>% 
   group_by(territoire,date_semi) %>% 
   summarise(mean_prod = mean(production_totale, na.rm = T),.groups = "drop") %>% 
   ggplot(aes(x = date_semi, y = mean_prod, color = territoire)) +
-  geom_point() +
+  geom_point(alpha = 0.01) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
   theme_minimal()
-
+data_semin
 #Maintenant on regarde ce qui se passe pour la réunion et la guiyanne.
 
 plot_re_guy <- new_data   %>% 
@@ -115,7 +117,7 @@ plot_re_guy <- new_data   %>%
   group_by(territoire,date_semi) %>% 
   summarise(mean_prod = mean(production_totale, na.rm = T),.groups = "drop") %>% 
   ggplot(aes(x = date_semi, y = mean_prod, color = territoire)) +
-  geom_point() +
+  geom_point(alpha = 0.1) +
   theme_minimal()
   
 plot_re_guy
