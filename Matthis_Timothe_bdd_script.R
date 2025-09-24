@@ -1,10 +1,3 @@
-#ARVOIS Matthis , FADENIPO Timothe
-
-
-
-
-
-
 #premier fichier pour projet
 library(lubridate)
 library(dplyr)
